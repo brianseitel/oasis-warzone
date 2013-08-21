@@ -19,7 +19,7 @@ class War {
 		shuffle(self::$armies);
 		
 		// Fight between 2 and 5 rounds
-		$rounds = mt_rand(2,5);
+		$rounds = 1 + Dice::roll('1d4');
 
 		$army1 = self::$armies[0];
 		$army2 = self::$armies[1];

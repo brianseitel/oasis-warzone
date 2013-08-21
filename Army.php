@@ -37,10 +37,10 @@ class Army {
 	}
 
 	public function promote() {
+		Report::promote($this);
 		foreach ($this->units as $unit)
 			$unit->level_up();
 
-		Report::promote($this);
 		return $this;
 	}
 
@@ -55,9 +55,9 @@ class Army {
 
 		$diff = NUMBER_OF_UNITS - count($this->units);
 
-		$max = $diff + mt_rand(0, count($armies) - $rank);
+		$max = max(1, $diff + Dice::roll('1d12') - $rank);
 
-		$recruits = mt_rand(0, min(0, $max));
+		$recruits = Dice::roll("1d{$max}");
 		$this->draft($recruits);
 
 		Report::draft($this, $recruits);
@@ -69,7 +69,7 @@ class Army {
 	}
 
 	private function assign_job() {
-		$medic_chance = mt_rand(0, NUMBER_OF_UNITS * 3); // 1/3n chance
+		$medic_chance = Dice::roll('2d20');
 		if ($medic_chance === 1)
 			$unit = new Medic;
 		else

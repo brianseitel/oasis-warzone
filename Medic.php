@@ -5,7 +5,7 @@ class Medic extends Unit {
 	public $str = 3;
 
 	public function gain_experience($target = null) {
-		$gained = $target->level * log($target->hitpoints);
+		$gained = Dice::roll('1d4') * $this->level;
 		$this->exp += $gained;
 	}
 
