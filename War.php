@@ -2,17 +2,13 @@
 
 class War {
 	
+	const DELAY = 100000;
+
+	const ARMIES = 2;
+	const NUMBER_OF_UNITS = 20;
 	const EXP_PER_KILL = 100;
 
 	public static $armies = array();
-
-	public static function declare_war($armies) {
-		self::$armies = $armies;
-	}
-
-	public static function still_fighting() {
-		return count(self::$armies) > 1;
-	}
 
 	public static function begin_battle() {
 		// Pick two armies and fight
@@ -28,6 +24,10 @@ class War {
 		War::cleanup();
 	}
 
+	public static function declare_war($armies) {
+		self::$armies = $armies;
+	}
+
 	public static function end_battle() {
 		foreach (self::$armies as $army)
 			$army->promote()->recover();
@@ -37,6 +37,31 @@ class War {
 		$armies = self::$armies;
 		usort($armies, function($a, $b) { return $a->total_kills > $b->total_kills; });
 		return $armies;
+	}
+
+	public static function start() {
+		$armies = array();
+
+		for ($i = 0; $i < self::ARMIES; $i++) {
+			$army = new Army;
+			$army->draft(self::NUMBER_OF_UNITS);
+			$armies[] = $army;
+		}
+
+		Report::start($armies);
+
+		War::declare_war($armies);
+
+		while (War::still_fighting()) {
+			War::begin_battle();
+			War::end_battle();
+		}
+
+		Report::end(array_shift(War::$armies));
+	}
+
+	public static function still_fighting() {
+		return count(self::$armies) > 1;
 	}
 
 	private static function cleanup() {

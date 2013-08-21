@@ -25,7 +25,7 @@ class Battle {
 	private static function take_turn($army1, $army2) {
 		$kills = 0;
 		foreach ($army1->units as $i => $unit) {
-			// usleep(100000);
+			usleep(War::DELAY);
 			if (!count($army2->units)) return;
 
 			if (Util::type($unit, 'Medic'))

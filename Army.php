@@ -53,14 +53,14 @@ class Army {
 				break;
 			}
 
-		$diff = NUMBER_OF_UNITS - count($this->units);
+		$diff = War::NUMBER_OF_UNITS - count($this->units);
 
-		$max = max(1, $diff + Dice::roll('1d12') - $rank);
+		$recruits = Dice::roll("1d{$diff}");
 
-		$recruits = Dice::roll("1d{$max}");
-		$this->draft($recruits);
-
-		Report::draft($this, $recruits);
+		if ($recruits > 0) {
+			$this->draft($recruits);
+			Report::draft($this, $recruits);
+		}
 	}
 
 	public function random_unit() {
