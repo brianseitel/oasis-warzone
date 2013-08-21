@@ -68,11 +68,11 @@ The process is basically as follows:
 
 Battles are pretty straightforward. We randomly picked two armies to participate in the battle. One army gets first strike (element of surprise or something).
 
-1) Loop through each unit in the first army
-2) Each unit takes action (attack enemy, heal ally)
-3) If a unit's HP goes below zero, they die and are removed from the army.
-4) Repeat steps 1-3 with the second army.
-5) If an army runs out of soldiers OR we finish all the rounds, battle ends.
+1. Loop through each unit in the first army
+2. Each unit takes action (attack enemy, heal ally)
+3. If a unit's HP goes below zero, they die and are removed from the army.
+4. Repeat steps 1-3 with the second army.
+5. If an army runs out of soldiers OR we finish all the rounds, battle ends.
 
 ## Experience
 
