@@ -31,6 +31,7 @@ I wound up with a few base classes:
     * Medic - Cannot attack. Can heal allies.
 * Battle - A confrontation between two armies.
 * Report - Handles reporting events in full color.
+* Dice - Handles the chance-based things, such as attack damage.
 
 ### Color
 
