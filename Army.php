@@ -2,7 +2,7 @@
 
 class Army {
 	
-	public $soldiers = array();
+	public $units = array();
 	public $name;
 	public $total_kills = 0;
 
@@ -20,25 +20,25 @@ class Army {
 
 	public function draft($number) {
 		for ($i = 0; $i < $number; $i++) {
-			$soldier = $this->assign_job();
-			$soldier->army = $this->name;
-			$this->soldiers[] = $soldier;
+			$unit = $this->assign_job();
+			$unit->army = $this->name;
+			$this->units[] = $unit;
 		}
 
 		$has_medic = false;
-		foreach ($this->soldiers as $soldier)
-			if ($soldier instanceOf Medic)
+		foreach ($this->units as $unit)
+			if ($unit instanceOf Medic)
 				$has_medic = true;
 
 		if (!$has_medic) {
-			$this->soldiers[0] = new Medic;
-			$this->soldiers[0]->army = $this->name;
+			$this->units[0] = new Medic;
+			$this->units[0]->army = $this->name;
 		}
 	}
 
 	public function promote() {
-		foreach ($this->soldiers as $soldier)
-			$soldier->level_up();
+		foreach ($this->units as $unit)
+			$unit->level_up();
 
 		Report::promote($this);
 		return $this;
@@ -53,7 +53,7 @@ class Army {
 				break;
 			}
 
-		$diff = NUMBER_OF_SOLDIERS - count($this->soldiers);
+		$diff = NUMBER_OF_UNITS - count($this->units);
 
 		$max = $diff + mt_rand(0, count($armies) - $rank);
 
@@ -63,19 +63,19 @@ class Army {
 		Report::draft($this, $recruits);
 	}
 
-	public function random_soldier() {
-		shuffle($this->soldiers);
-		return $this->soldiers[0];
+	public function random_unit() {
+		shuffle($this->units);
+		return $this->units[0];
 	}
 
 	private function assign_job() {
-		$medic_chance = mt_rand(0, NUMBER_OF_SOLDIERS * 3); // 1/3n chance
+		$medic_chance = mt_rand(0, NUMBER_OF_UNITS * 3); // 1/3n chance
 		if ($medic_chance === 1)
-			$soldier = new Medic;
+			$unit = new Medic;
 		else
-			$soldier = new Soldier;
+			$unit = new Soldier;
 
-		return $soldier;
+		return $unit;
 	}
 
 	private function generate_name() {

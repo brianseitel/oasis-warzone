@@ -14,8 +14,8 @@ class Report {
 		$army = $winner;
 		$winner = strtoupper($winner);
 		echo PHP_EOL.GREEN."** WAR IS OVER! ".BLUE."{$winner}".GREEN." IS VICTORIOUS! **".GRAY.PHP_EOL;
-		foreach ($army->soldiers as $soldier) {
-			echo "\t{$soldier->name} (Level: {$soldier->level}): {$soldier->hitpoints}/{$soldier->max_hitpoints}".PHP_EOL;
+		foreach ($army->units as $unit) {
+			echo "\t{$unit->name} (Level: {$unit->level}): {$unit->hitpoints}/{$unit->max_hitpoints}".PHP_EOL;
 		}
 	}
 
@@ -65,7 +65,7 @@ class Report {
 		echo GRAY."+++ ".WHITE."{$army}".GRAY." is promoting survivors +++".PHP_EOL;
 	}
 
-	public static function levelup($soldier) {
-		echo YELLOW."+++ ".WHITE."{$soldier}".YELLOW." leveled up to level {$soldier->level}! +++".GRAY.PHP_EOL;
+	public static function levelup($unit) {
+		echo YELLOW."+++ ".WHITE."{$unit}".YELLOW." leveled up to level {$unit->level}! +++".GRAY.PHP_EOL;
 	}
 }

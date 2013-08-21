@@ -2,7 +2,7 @@
 
 class Battle {
 
-	public static $soldiers;
+	public static $units;
 
 	public static function engage($army1, $army2, $rounds) {
 		Report::start_battle($army1, $army2);
@@ -24,25 +24,24 @@ class Battle {
 
 	private static function take_turn($army1, $army2) {
 		$kills = 0;
-		foreach ($army1->soldiers as $i => $soldier) {
+		foreach ($army1->units as $i => $unit) {
 			// usleep(100000);
-			if (!count($army2->soldiers)) return;
+			if (!count($army2->units)) return;
 
-			$enemy = $army2->random_soldier($soldier);
-			$friendly = $army1->random_soldier($soldier);
+			if (Util::type($unit, 'Medic'))
+				$target = $army1->random_unit($unit);
+			else
+				$target = $army2->random_unit($unit);
 
 			$was_alive = false;
-			if ($enemy->alive) $was_alive = true;
+			if ($target->alive) $was_alive = true;
 
-			if ($soldier->alive && $enemy->alive)
-				if ($soldier instanceOf Medic)
-					$soldier->attack($friendly);
-				else
-					$soldier->attack($enemy);
+			if ($unit->alive && $target->alive)
+				$unit->take_action($target);
 
-			if (!$enemy->alive && $was_alive) {
-				$army2->soldiers = Battle::clear_dead($army2->soldiers);
-				$soldier->gain_experience($enemy);
+			if (!$target->alive && $was_alive) {
+				$army2->units = Battle::clear_dead($army2->units);
+				$unit->gain_experience($target);
 				$kills++;
 			}
 		}
@@ -50,16 +49,16 @@ class Battle {
 		return $kills;
 	}
 
-	private static function clear_dead($soldiers) {
-		$soldiers = array_filter($soldiers, function($soldier) { return $soldier->alive; });
+	private static function clear_dead($units) {
+		$units = array_filter($units, function($unit) { return $unit->alive; });
 
-		sort($soldiers);
-		return $soldiers;
+		sort($units);
+		return $units;
 	}
 
-	private static function find_enemy($soldiers) {
-		shuffle($soldiers);
-		return $soldiers[0];
+	private static function find_enemy($units) {
+		shuffle($units);
+		return $units[0];
 	}
 
 }

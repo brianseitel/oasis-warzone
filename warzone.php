@@ -3,8 +3,8 @@ date_default_timezone_set('America/Los_Angeles');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-define('ARMIES', 15);
-define('NUMBER_OF_SOLDIERS', 20); // Soldiers per army
+define('ARMIES', 2);
+define('NUMBER_OF_UNITS', 20); // Units per army
 
 $start = microtime(1);
 
@@ -12,7 +12,7 @@ $armies = array();
 
 for ($i = 0; $i < ARMIES; $i++) {
 	$army = new Army;
-	$army->draft(NUMBER_OF_SOLDIERS);
+	$army->draft(NUMBER_OF_UNITS);
 	$armies[] = $army;
 }
 

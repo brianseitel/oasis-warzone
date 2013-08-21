@@ -2,7 +2,7 @@
 
 class War {
 	
-	const EXP_PER_KILL = 25;
+	const EXP_PER_KILL = 100;
 
 	public static $armies = array();
 
@@ -41,6 +41,18 @@ class War {
 
 	private static function cleanup() {
 		$count = count(self::$armies);
-		self::$armies = array_filter(self::$armies, function ($army) { return count($army->soldiers); });
+		self::$armies = array_filter(self::$armies, function ($army) { 
+			
+			$has_units = count($army->units) > 0;
+
+			$medics = array_filter($army->units, function($unit) {
+				return Util::type($unit, 'Medic');
+			});
+
+			$only_medics = count($army->units) === count($medics);
+
+
+			return $has_units && !$only_medics;
+		});
 	}
 }
