@@ -43,6 +43,10 @@ class Report {
 		echo WHITE."{$aggressor}".GRAY." swings at ".PURPLE."{$defender}".GRAY." but misses!".PHP_EOL;
 	}
 
+	public static function miss_heal($aggressor, $target) {
+		echo WHITE."{$aggressor}".GRAY." tries to ".YELLOW."heal ".PURPLE."{$target}".GRAY." but fails!".PHP_EOL;
+	}
+
 	public static function start_battle($army1, $army2) {
 		echo PHP_EOL;
 		echo BLUE.">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>".GRAY.PHP_EOL;
