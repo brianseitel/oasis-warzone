@@ -69,9 +69,11 @@ class Army {
 	}
 
 	private function assign_job() {
-		$medic_chance = Dice::roll('2d20');
-		if ($medic_chance === 1)
+		$roll = Dice::roll('2d20');
+		if ($roll % 4 === 0)
 			$unit = new Medic;
+		elseif ($roll % 10 === 0)
+			$unit = new Tank;
 		else
 			$unit = new Soldier;
 
