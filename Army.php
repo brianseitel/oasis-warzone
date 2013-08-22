@@ -55,6 +55,7 @@ class Army {
 
 		$diff = War::NUMBER_OF_UNITS - count($this->units);
 
+		$diff = max(0, $diff);
 		$recruits = Dice::roll("1d{$diff}");
 
 		if ($recruits > 0) {
