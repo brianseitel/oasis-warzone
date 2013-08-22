@@ -12,7 +12,11 @@ class Soldier extends Unit {
 		}
 	}
 
-	public function take_action(Unit $target) {
+	public function take_action(Army $enemy, Army $ally) {
+		do {
+			$target = $enemy->random_unit();
+		} while (!$target->alive);
+
 		$roll = Dice::roll('1d8');
 		if ($roll === 1) {
 			Report::miss($this, $target);
@@ -27,8 +31,14 @@ class Soldier extends Unit {
 		} else if ($roll == 8 || ($atk_damage > $target_def)) {
 			$target->take_damage($atk_damage);
 			Report::hit($this, $target, $atk_damage);
-			if (!$target->alive)
-				Report::death($target);
 		}
+
+		if (!$target->alive) {
+			$enemy->units = Battle::clear_dead($enemy->units);
+			$this->gain_experience($target);
+			return 1;
+		}
+
+		return 0;
 	}
 }
