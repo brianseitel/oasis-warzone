@@ -28,28 +28,13 @@ class Battle {
 			usleep(War::DELAY);
 			if (!count($army2->units)) return;
 
-			if (Util::type($unit, 'Medic'))
-				$target = $army1->random_unit($unit);
-			else
-				$target = $army2->random_unit($unit);
-
-			$was_alive = false;
-			if ($target->alive) $was_alive = true;
-
-			if ($unit->alive && $target->alive)
-				$unit->take_action($target);
-
-			if (!$target->alive && $was_alive) {
-				$army2->units = Battle::clear_dead($army2->units);
-				$unit->gain_experience($target);
-				$kills++;
-			}
+			$kills += $unit->take_action($army2, $army1);
 		}
 
 		return $kills;
 	}
 
-	private static function clear_dead($units) {
+	public static function clear_dead($units) {
 		$units = array_filter($units, function($unit) { return $unit->alive; });
 
 		sort($units);
