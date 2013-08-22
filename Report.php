@@ -15,7 +15,7 @@ class Report {
 		$winner = strtoupper($winner);
 		echo PHP_EOL.GREEN."** WAR IS OVER! ".BLUE."{$winner}".GREEN." IS VICTORIOUS! **".GRAY.PHP_EOL;
 		foreach ($army->units as $unit) {
-			echo "\t{$unit->name} (Level: {$unit->level}): {$unit->hitpoints}/{$unit->max_hitpoints}".PHP_EOL;
+			echo "\t{$unit} (Level: {$unit->level}): {$unit->hitpoints}/{$unit->max_hitpoints}".PHP_EOL;
 		}
 	}
 
@@ -33,14 +33,22 @@ class Report {
 	}
 
 	public static function hit($aggressor, $defender, $amount) {
-		$verbs = array('smacks', 'discombobulates', 'eviscerates', 'assaults', 'attacks', 'punches', 'kicks', 'slams', 'stabs', 'incinerates');
-		shuffle($verbs);
-		$verb = array_shift($verbs);
-		echo WHITE."{$aggressor}".GRAY." {$verb} ".PURPLE."{$defender}".GRAY." for ".RED."{$amount}".GRAY." damage! ".YELLOW."({$defender->hitpoints}/{$defender->max_hitpoints})".PHP_EOL.GRAY;
+		if (Util::type($aggressor, 'Tank')) {
+			echo WHITE."{$aggressor}".GRAY." fires its cannon at ".PURPLE."{$defender}".GRAY." for ".RED."{$amount}".GRAY." damage! ".YELLOW."({$defender->hitpoints}/{$defender->max_hitpoints})".PHP_EOL.GRAY;
+		} else {
+			$verbs = array('smacks', 'discombobulates', 'eviscerates', 'assaults', 'attacks', 'punches', 'kicks', 'slams', 'stabs', 'incinerates');
+			shuffle($verbs);
+			$verb = array_shift($verbs);
+			echo WHITE."{$aggressor}".GRAY." {$verb} ".PURPLE."{$defender}".GRAY." for ".RED."{$amount}".GRAY." damage! ".YELLOW."({$defender->hitpoints}/{$defender->max_hitpoints})".PHP_EOL.GRAY;
+		}
 	}
 
 	public static function miss($aggressor, $defender) {
-		echo WHITE."{$aggressor}".GRAY." swings at ".PURPLE."{$defender}".GRAY." but misses!".PHP_EOL;
+		if (Util::type($aggressor, 'Tank')) {
+			echo WHITE."{$aggressor}".GRAY." fires its cannon at ".PURPLE."{$defender}".GRAY." but misses!".PHP_EOL;
+		} else {
+			echo WHITE."{$aggressor}".GRAY." swings at ".PURPLE."{$defender}".GRAY." but misses!".PHP_EOL;
+		}
 	}
 
 	public static function miss_heal($aggressor, $target) {
