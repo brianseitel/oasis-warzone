@@ -45,7 +45,7 @@ class Unit {
 			$this->str 				+= $more_str;
 			$this->def 				+= $more_def;
 
-			$this->max_hitpoints = min($this->max_hitpoints, 20);
+			$this->max_hitpoints = max($this->max_hitpoints, 20);
 			Report::levelup($this);
 		}
 	}
@@ -53,12 +53,13 @@ class Unit {
 	public function take_damage($amount) {
 		$this->hitpoints -= $amount;
 
-		if ($this->hitpoints < 0) {
+		if ($this->hitpoints <= 0) {
 			$this->alive = false;
+			Report::death($this);
 		}
 	}
 
-	private function generate_stats() {
+	protected function generate_stats() {
 		$this->str *= 1 + mt_rand(1,50) / 100;
 		$this->def *= 1 + mt_rand(1,50) / 100;
 		$this->hitpoints *=  1 + mt_rand(1,50) / 100;
