@@ -9,6 +9,10 @@ And I immediately thought, "Wow! That's a cool idea!"
 
 I purposely didn't read the rest of the post until after I implemented my prototype. While I ultimately made basically the same restrictions upon myself, the overall result wound up being somewhat different.
 
+### To Use
+
+Clone the repo, and run ```php warzone.php```. Watch the output. Voila!
+
 ### Restrictions
 
 I imposed a few restrictions on my code:
